@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-Hant">
   <head>
     <meta charset="utf-8" />
@@ -12,9 +12,15 @@
         <span class="quote" id="quoteText">準備好了。</span>
       </div>
       <div class="controls">
-        <button class="action" id="actionBtn" type="button">
-          <span class="btn-text" id="btnText">開始</span>
-        </button>
+        <div class="primary-col">
+          <button class="action" id="actionBtn" type="button">
+            <span class="btn-text" id="btnText">開始</span>
+          </button>
+          <button class="progress" id="imageProgress" type="button" aria-pressed="true">
+            <span class="progress-fill" id="progressFill"></span>
+            <span class="progress-text" id="progressText">0/5</span>
+          </button>
+        </div>
         <div class="auto-wrap">
           <button class="toggle" id="autoToggle" type="button" aria-pressed="false">
             <span class="toggle-icon" id="toggleIcon" aria-hidden="true">▶</span>
@@ -22,7 +28,7 @@
           </button>
           <div class="speed-panel" id="speedPanel">
             <label class="speed-label" for="speedRange">
-              播放間隔：<span id="speedValue">3.2</span> 秒
+              播放間隔：<span id="speedValue">1</span> 秒
             </label>
             <input
               class="speed-range"
