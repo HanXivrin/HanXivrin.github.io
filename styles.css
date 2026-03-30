@@ -1,0 +1,209 @@
+﻿:root {
+  color-scheme: light;
+  --bg: #101419;
+  --bg-accent: #202a35;
+  --bg-soft: #2b3645;
+  --ink: #f5f0e6;
+  --ink-muted: #c5b9a6;
+  --accent: #ffb33a;
+  --accent-strong: #ff8a2a;
+  --glass: rgba(17, 22, 28, 0.72);
+  --stroke: rgba(255, 255, 255, 0.12);
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  --radius: 28px;
+  --font-title: "Noto Serif TC", "PMingLiU", serif;
+  --font-body: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 179, 58, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 5%, rgba(255, 138, 42, 0.18), transparent 38%),
+    linear-gradient(160deg, #0b0e13 0%, #141a21 40%, #0f141b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.stage {
+  width: min(960px, 100%);
+  display: grid;
+  gap: 28px;
+  align-items: center;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.auto-wrap {
+  position: relative;
+  display: grid;
+  justify-items: center;
+}
+
+.screen {
+  min-height: clamp(220px, 38vh, 360px);
+  padding: clamp(28px, 5vw, 48px);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--glass), rgba(10, 12, 16, 0.88));
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.quote {
+  font-family: var(--font-title);
+  font-size: clamp(24px, 3.6vw, 44px);
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  transition: opacity 260ms ease, transform 260ms ease;
+  will-change: opacity, transform;
+}
+
+.action {
+  width: min(560px, 100%);
+  justify-self: center;
+  padding: 18px 24px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 179, 58, 0.28);
+  background: linear-gradient(120deg, var(--accent), var(--accent-strong));
+  color: #201208;
+  font-weight: 700;
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-transform: none;
+  box-shadow: 0 18px 45px rgba(255, 138, 42, 0.25);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.action:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: 0 10px 30px rgba(255, 138, 42, 0.2);
+}
+
+.toggle {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(140deg, #212a35, #0f141b);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.toggle:active {
+  transform: translateY(2px) scale(0.98);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.28);
+}
+
+.toggle-icon {
+  font-size: 22px;
+  line-height: 1;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.speed-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(12, 16, 22, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  display: grid;
+  gap: 8px;
+  min-width: 220px;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.speed-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.speed-range {
+  width: 100%;
+  cursor: pointer;
+}
+
+.auto-wrap:hover .speed-panel,
+.auto-wrap:focus-within .speed-panel {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.btn-text {
+  display: inline-block;
+  transition: opacity 260ms ease, transform 260ms ease;
+  will-change: opacity, transform;
+}
+
+.is-fading {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .stage {
+    gap: 20px;
+  }
+
+  .action {
+    width: 100%;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .toggle {
+    justify-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote,
+  .btn-text,
+  .action {
+    transition: none;
+  }
+}
