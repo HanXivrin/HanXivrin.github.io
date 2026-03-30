@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>名言顯示器</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="stage">
+      <div class="screen" id="quoteScreen" role="status" aria-live="polite">
+        <span class="quote" id="quoteText">準備好了。</span>
+      </div>
+      <div class="controls">
+        <button class="action" id="actionBtn" type="button">
+          <span class="btn-text" id="btnText">開始</span>
+        </button>
+        <div class="auto-wrap">
+          <button class="toggle" id="autoToggle" type="button" aria-pressed="false">
+            <span class="toggle-icon" id="toggleIcon" aria-hidden="true">▶</span>
+            <span class="sr-only" id="toggleLabel">自動輪播：已暫停</span>
+          </button>
+          <div class="speed-panel" id="speedPanel">
+            <label class="speed-label" for="speedRange">
+              播放間隔：<span id="speedValue">3.2</span> 秒
+            </label>
+            <input
+              class="speed-range"
+              id="speedRange"
+              type="range"
+              min="0.1"
+              max="5"
+              step="0.1"
+              value="3.2"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
