@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: light;
   --bg: #101419;
   --bg-accent: #202a35;
@@ -43,9 +43,15 @@ body {
 
 .controls {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
   align-items: center;
+}
+
+.primary-col {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
 }
 
 .auto-wrap {
@@ -65,6 +71,7 @@ body {
   place-items: center;
   text-align: center;
   backdrop-filter: blur(10px);
+  position: relative;
 }
 
 .quote {
@@ -170,6 +177,63 @@ body {
   transform: translateY(10px);
 }
 
+.image-burst {
+  position: absolute;
+  left: clamp(16px, 4vw, 28px);
+  bottom: clamp(16px, 4vw, 28px);
+  width: clamp(120px, 20vw, 220px);
+  max-width: 45%;
+  height: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  transform: scale(0.4);
+  opacity: 0;
+  animation: burstPop 900ms ease-out forwards;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.progress {
+  position: relative;
+  height: 42px;
+  width: min(520px, 100%);
+  justify-self: center;
+  border-radius: 999px;
+  border: 2px solid rgba(79, 189, 129, 0.9);
+  background: rgba(10, 14, 20, 0.65);
+  color: var(--ink);
+  overflow: hidden;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.progress.is-paused {
+  border-color: rgba(220, 72, 72, 0.9);
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(120deg, rgba(255, 179, 58, 0.2), rgba(255, 138, 42, 0.55));
+  transition: width 200ms ease;
+  z-index: 0;
+}
+
+.progress-text {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+}
+
+.progress:active {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -197,6 +261,25 @@ body {
 
   .toggle {
     justify-self: center;
+  }
+
+  .progress {
+    width: 100%;
+  }
+}
+
+@keyframes burstPop {
+  0% {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 0;
   }
 }
 
