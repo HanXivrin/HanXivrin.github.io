@@ -1,4 +1,4 @@
-﻿const quotes = [
+const quotes = [
   "看啊，看啊，這是誰來了？",
   "義重如山岳，死輕如鴻毛",
   "你好，同志",
@@ -142,7 +142,23 @@ const buttonLabels = [
   "你走了我們吃什麼",
 ];
 
+const imageSources = [
+  "images/image-01.jpg.jpg",
+  "images/image-02.jpg.jpg",
+  "images/image-03.jpg.jpg",
+  "images/image-04.jpg.jpg",
+  "images/image-05.jpg.jpg",
+  "images/image-06.jpg.avif",
+  "images/image-07.jpg.jpg",
+  "images/image-08.jpg.jpg",
+  "images/image-09.jpg.jpg",
+  "images/image-10.jpg.jpg",
+  "images/image-11.jpg.jpg",
+  "images/image-12.jpg.avif",
+];
+
 const quoteText = document.getElementById("quoteText");
+const quoteScreen = document.getElementById("quoteScreen");
 const btnText = document.getElementById("btnText");
 const actionBtn = document.getElementById("actionBtn");
 const autoToggle = document.getElementById("autoToggle");
@@ -150,15 +166,23 @@ const toggleIcon = document.getElementById("toggleIcon");
 const toggleLabel = document.getElementById("toggleLabel");
 const speedRange = document.getElementById("speedRange");
 const speedValue = document.getElementById("speedValue");
+const imageProgress = document.getElementById("imageProgress");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
 
 const fadeDuration = 260;
 let lastQuote = "";
 let lastButtonLabel = "";
+let lastImage = "";
 let quoteQueue = [];
 let buttonQueue = [];
+let imageQueue = [];
 let isAnimating = false;
 let autoTimer = null;
 let autoInterval = 3200;
+let imageEnabled = true;
+let stepCount = 0;
+const stepsToImage = 5;
 
 function formatQuote(text) {
   return `「${text}」`;
@@ -187,6 +211,13 @@ function refillButtonQueue() {
   }
 }
 
+function refillImageQueue() {
+  imageQueue = shuffleArray(imageSources);
+  if (imageQueue.length > 1 && imageQueue[0] === lastImage) {
+    [imageQueue[0], imageQueue[1]] = [imageQueue[1], imageQueue[0]];
+  }
+}
+
 function getNextQuote() {
   if (quoteQueue.length === 0) {
     refillQuoteQueue();
@@ -205,12 +236,65 @@ function getNextButtonLabel() {
   return next;
 }
 
+function getNextImage() {
+  if (imageQueue.length === 0) {
+    refillImageQueue();
+  }
+  const next = imageQueue.shift();
+  lastImage = next;
+  return next;
+}
+
 function fadeSwap(element, nextText) {
   element.classList.add("is-fading");
   window.setTimeout(() => {
     element.textContent = nextText;
     element.classList.remove("is-fading");
   }, fadeDuration);
+}
+
+function showImageBurst() {
+  const img = document.createElement("img");
+  img.src = getNextImage();
+  img.alt = "";
+  img.className = "image-burst";
+  img.setAttribute("aria-hidden", "true");
+  quoteScreen.appendChild(img);
+  img.addEventListener(
+    "animationend",
+    () => {
+      img.remove();
+    },
+    { once: true }
+  );
+}
+
+function updateProgress() {
+  const percent = (stepCount / stepsToImage) * 100;
+  progressFill.style.width = `${percent}%`;
+  progressText.textContent = `${stepCount}/${stepsToImage}`;
+}
+
+function advanceImageCounter() {
+  stepCount += 1;
+  if (stepCount >= stepsToImage) {
+    if (imageEnabled) {
+      showImageBurst();
+    }
+    updateProgress();
+    stepCount = 0;
+    window.setTimeout(() => {
+      updateProgress();
+    }, 220);
+    return;
+  }
+  updateProgress();
+}
+
+function toggleImageEnabled() {
+  imageEnabled = !imageEnabled;
+  imageProgress.classList.toggle("is-paused", !imageEnabled);
+  imageProgress.setAttribute("aria-pressed", String(imageEnabled));
 }
 
 function handleClick() {
@@ -222,6 +306,7 @@ function handleClick() {
 
   fadeSwap(quoteText, nextQuote);
   fadeSwap(btnText, nextLabel);
+  advanceImageCounter();
 
   window.setTimeout(() => {
     isAnimating = false;
@@ -273,11 +358,15 @@ function init() {
   quoteText.textContent = formatQuote(getNextQuote());
   btnText.textContent = getNextButtonLabel();
   setAutoState(false);
+  imageProgress.classList.toggle("is-paused", !imageEnabled);
+  imageProgress.setAttribute("aria-pressed", String(imageEnabled));
   updateSpeedDisplay(parseFloat(speedRange.value));
+  updateProgress();
 }
 
 actionBtn.addEventListener("click", handleClick);
 autoToggle.addEventListener("click", toggleAuto);
+imageProgress.addEventListener("click", toggleImageEnabled);
 speedRange.addEventListener("input", (event) => {
   const seconds = parseFloat(event.target.value);
   if (Number.isNaN(seconds)) return;
