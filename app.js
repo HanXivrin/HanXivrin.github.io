@@ -140,6 +140,9 @@ const buttonLabels = [
   "換大盞",
   "接著奏樂接著舞",
   "你走了我們吃什麼",
+  "風從虎",
+  "雲從龍",
+  "龍虎英雄傲蒼穹",
 ];
 
 const imageSources = [
