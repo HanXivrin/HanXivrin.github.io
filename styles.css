@@ -189,7 +189,7 @@ body {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   transform: scale(0.4);
   opacity: 0;
-  animation: burstPop 2500ms ease-out forwards;
+  animation: burstPop 2100ms ease-out forwards;
   z-index: 2;
   pointer-events: none;
 }
